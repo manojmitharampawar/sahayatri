@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahayatri — Complete Product Design</title>
+<style>
+:root {
+  --bg:#ffffff;--bg2:#f7f6f3;--bg3:#eeecea;
+  --tx:#1a1a18;--tx2:#4a4a46;--tx3:#7a7a76;
+  --br:rgba(0,0,0,0.11);
+  --teal:#0f6e56;--teal-l:#e1f5ee;--teal-d:#085041;
+  --coral:#993c1d;--coral-l:#faece7;--coral-d:#4a1b0c;
+  --amber:#854f0b;--amber-l:#faeeda;--amber-d:#412402;
+  --purple:#534ab7;--purple-l:#eeedfe;--purple-d:#26215c;
+  --accent:#1d9e75;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1a1a18;--bg2:#242422;--bg3:#2e2e2a;
+    --tx:#e8e6e0;--tx2:#b0ae9e;--tx3:#787670;
+    --br:rgba(255,255,255,0.09);
+    --teal:#5dcaa5;--teal-l:#085041;--teal-d:#9fe1cb;
+    --coral:#f0997b;--coral-l:#712b13;--coral-d:#f5c4b3;
+    --amber:#ef9f27;--amber-l:#633806;--amber-d:#fac775;
+    --purple:#afa9ec;--purple-l:#3c3489;--purple-d:#cecbf6;
+    --accent:#5dcaa5;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--tx);
+  font-size:16px;line-height:1.75;
+  max-width:920px;margin:0 auto;padding:0 2.5rem 5rem;
+}
+
+/* ── Cover ─────────────────────────────────── */
+.cover{padding:4rem 0 3rem;border-bottom:.5px solid var(--br);margin-bottom:3rem}
+.cover-label{font-size:11px;letter-spacing:.12em;color:var(--tx3);text-transform:uppercase;margin-bottom:1rem}
+.cover-title{font-size:52px;font-weight:500;letter-spacing:-1.5px;line-height:1;color:var(--tx);margin-bottom:6px}
+.cover-dev{font-size:26px;color:var(--tx3);font-weight:400;letter-spacing:3px;margin-bottom:1.5rem}
+.cover-tag{font-size:18px;color:var(--tx2);margin-bottom:3px}
+.cover-tag-en{font-size:14px;color:var(--tx3)}
+.etym{display:flex;gap:10px;align-items:center;margin-top:2rem;flex-wrap:wrap}
+.ep{padding:7px 16px;border-radius:10px;font-size:14px}
+.ep strong{display:block;font-weight:500}
+.ep span{font-size:11px;opacity:.8}
+.ep.t{background:var(--teal-l);color:var(--teal)}
+.ep.c{background:var(--coral-l);color:var(--coral)}
+.ep.r{background:var(--bg3);border:.5px solid var(--br);color:var(--tx)}
+.eop{color:var(--tx3);font-size:20px;font-weight:300}
+
+/* ── TOC ─────────────────────────────────── */
+.toc{background:var(--bg2);border-radius:12px;padding:1.5rem 2rem;margin-bottom:3rem}
+.toc-h{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3);margin-bottom:12px}
+.toc ol{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 2rem}
+.toc a{color:var(--tx2);text-decoration:none;font-size:14px}
+.toc a:hover{color:var(--accent)}
+.toc .n{color:var(--tx3);margin-right:6px;font-variant-numeric:tabular-nums}
+
+/* ── Sections ─────────────────────────────── */
+section{margin-bottom:3.5rem}
+h2{font-size:26px;font-weight:500;margin-bottom:.25rem;padding-top:1rem}
+.sh{font-size:13px;color:var(--tx3);margin-bottom:1.75rem;letter-spacing:.03em}
+h3{font-size:17px;font-weight:500;margin:1.75rem 0 .5rem;color:var(--tx)}
+h4{font-size:14px;font-weight:500;margin-bottom:.5rem;color:var(--tx)}
+p{margin-bottom:1rem;color:var(--tx2)}
+
+/* ── Pillars ─────────────────────────────── */
+.pillar{border:.5px solid var(--br);border-radius:14px;padding:1.4rem 1.75rem;margin-bottom:1rem}
+.pillar-h{display:flex;align-items:baseline;gap:10px;margin-bottom:.75rem;flex-wrap:wrap}
+.pname{font-size:19px;font-weight:500}
+.phindi{font-size:15px;color:var(--tx3)}
+.ptag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;letter-spacing:.04em}
+.ptag.t{background:var(--teal-l);color:var(--teal)}
+.ptag.c{background:var(--coral-l);color:var(--coral)}
+.ptag.a{background:var(--amber-l);color:var(--amber)}
+.ptag.p{background:var(--purple-l);color:var(--purple)}
+
+/* ── Lists ───────────────────────────────── */
+ul.fl{list-style:none;margin:.4rem 0 .8rem}
+ul.fl li{font-size:14px;color:var(--tx2);padding:4px 0 4px 18px;position:relative}
+ul.fl li::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:var(--tx3)}
+
+/* ── Formula ─────────────────────────────── */
+.formula{
+  background:var(--bg2);border:.5px solid var(--br);border-radius:10px;
+  padding:1.1rem 1.4rem;font-family:'SF Mono','Fira Code',monospace;
+  font-size:14px;color:var(--tx);margin:.75rem 0 1rem;overflow-x:auto;line-height:1.8
+}
+.formula .cm{color:var(--tx3);font-size:12px;display:block;margin-top:6px}
+
+/* ── Callout ─────────────────────────────── */
+.callout{
+  border-left:3px solid var(--accent);padding:.85rem 1.1rem;
+  background:var(--bg2);border-radius:0 10px 10px 0;
+  margin:1rem 0;font-size:15px;color:var(--tx2)
+}
+
+/* ── Guarantee ───────────────────────────── */
+.guarantee{
+  background:var(--teal-l);border:.5px solid var(--teal);
+  border-radius:12px;padding:1.25rem 1.5rem;margin:1rem 0
+}
+.gt{font-weight:500;color:var(--teal);margin-bottom:4px;font-size:15px}
+.guarantee p{color:var(--teal);font-size:14px;margin:0;opacity:.95}
+
+/* ── Tables ──────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:14px;margin:1rem 0}
+th{
+  text-align:left;font-weight:500;font-size:11px;
+  text-transform:uppercase;letter-spacing:.07em;
+  color:var(--tx3);padding:8px 12px;border-bottom:.5px solid var(--br)
+}
+td{padding:11px 12px;border-bottom:.5px solid var(--br);color:var(--tx2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tdb{font-weight:500;color:var(--tx)}
+.pbadge{
+  display:inline-block;font-size:11px;font-weight:500;
+  padding:2px 9px;border-radius:4px;
+  background:var(--bg3);color:var(--tx3)
+}
+
+/* ── Diagram ─────────────────────────────── */
+.dw{background:var(--bg2);border:.5px solid var(--br);border-radius:14px;padding:1.5rem;margin:1rem 0 1.5rem}
+.dc{font-size:12px;color:var(--tx3);text-align:center;margin-top:.75rem}
+
+/* ── Platform ────────────────────────────── */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1rem 0}
+.pc{border:.5px solid var(--br);border-radius:12px;padding:1.1rem 1.25rem}
+
+/* ── HR / Footer ─────────────────────────── */
+hr{border:none;border-top:.5px solid var(--br);margin:2rem 0}
+.footer{font-size:12px;color:var(--tx3);text-align:center;margin-top:2rem}
+
+@media(max-width:600px){
+  body{padding:0 1.25rem 3rem}
+  .cover-title{font-size:36px}
+  .toc ol{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Complete Product Design Document · v1.0 · Indian Railways</div>
+  <div class="cover-title">Sahayatri</div>
+  <div class="cover-dev">सहयात्री</div>
+  <div class="cover-tag">Aapka saathi, har safar mein</div>
+  <div class="cover-tag-en">Your companion, every journey</div>
+  <div class="etym">
+    <div class="ep t"><strong>Saha · सह</strong><span>together / with</span></div>
+    <div class="eop">+</div>
+    <div class="ep c"><strong>Yatri · यात्री</strong><span>traveller</span></div>
+    <div class="eop">=</div>
+    <div class="ep r"><strong>Fellow traveller</strong><span>a companion on the journey</span></div>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-h">Contents</div>
+  <ol>
+    <li><span class="n">01</span><a href="#problem">The problem</a></li>
+    <li><span class="n">02</span><a href="#vision">Product vision</a></li>
+    <li><span class="n">03</span><a href="#pillars">Core product pillars</a></li>
+    <li><span class="n">04</span><a href="#tech">Technical specification</a></li>
+    <li><span class="n">05</span><a href="#arch">System architecture</a></li>
+    <li><span class="n">06</span><a href="#stack">Technology stack</a></li>
+    <li><span class="n">07</span><a href="#platform">Platform considerations</a></li>
+    <li><span class="n">08</span><a href="#roadmap">Phased roadmap</a></li>
+    <li><span class="n">09</span><a href="#philosophy">Design philosophy</a></li>
+  </ol>
+</div>
+
+<!-- 01 PROBLEM -->
+<section id="problem">
+  <h2>01 · The problem</h2>
+  <div class="sh">Why Indian train travel needs Sahayatri</div>
+  <p>India's railways carry over 8 billion passengers a year across the world's largest rail network. Yet managing a train journey — from booking confirmation to safe arrival — is fragmented across half a dozen disconnected apps, none of which work reliably offline or talk to each other.</p>
+  <p>A typical passenger on a long-distance journey today faces all of these at once:</p>
+  <ul class="fl">
+    <li>Manually checking PNR status across NTES and third-party apps before every journey</li>
+    <li>Guessing when to leave home, with no dynamic adjustment for train delays</li>
+    <li>No reliable way to track physical position on the route during the journey</li>
+    <li>Anxiety about missing their destination station — especially on overnight journeys in Vishram (sleep)</li>
+    <li>Complete helplessness when cellular connectivity drops in rural and mountainous stretches</li>
+    <li>No single visual showing where their train actually is on an Indian railway map</li>
+  </ul>
+  <p>No existing application solves all of these together. Sahayatri does.</p>
+</section>
+
+<!-- 02 VISION -->
+<section id="vision">
+  <h2>02 · Product vision</h2>
+  <div class="sh">What Sahayatri is, and what it is not</div>
+  <p>Sahayatri is a mobile travel companion that eliminates the mental load of the Indian train journey — from automatic booking detection to a GPS-triggered arrival alarm — using intelligent parsing, real-time railway data, offline GPS tracking, and an interactive Indian Railways track map built from actual physical shapefile data.</p>
+  <div class="callout">
+    Sahayatri's foundational promise: once a journey is loaded, the app works with zero data connectivity for the entire duration. The server is consulted when available; it is never required.
+  </div>
+  <p>The product launches with Indian Railways (Phases 1–4) and is architected from the start to extend to flights, buses, and metro (Phase 5). Trains are the ideal foundation — they involve the longest journeys, the most acute need for offline functionality, the most structured booking data, and the largest addressable user base in India.</p>
+</section>
+
+<!-- 03 PILLARS -->
+<section id="pillars">
+  <h2>03 · Core product pillars</h2>
+  <div class="sh">Four features. One companion.</div>
+
+  <div class="pillar">
+    <div class="pillar-h">
+      <span class="pname">Yatra Khoj</span>
+      <span class="phindi">यात्रा खोज</span>
+      <span class="ptag t">Journey detection</span>
+    </div>
+    <p>Sahayatri automatically scans the user's email inbox (Gmail, Outlook via OAuth) and SMS messages for IRCTC booking confirmations and PNR-linked messages. Every relevant detail is extracted and populated into a clean <strong>Yatra Card</strong> — without the user entering a single value manually.</p>
+    <ul class="fl">
+      <li>PNR number, train name and number, class of travel</li>
+      <li>Boarding and destination station name, code, and geo-coordinates</li>
+      <li>Scheduled departure and arrival times</li>
+      <li>Coach, seat or berth number, passenger names</li>
+      <li>All parsing is on-device — raw message content is never transmitted to a server</li>
+    </ul>
+  </div>
+
+  <div class="pillar">
+    <div class="pillar-h">
+      <span class="pname">Samay Suchna</span>
+      <span class="phindi">समय सूचना</span>
+      <span class="ptag c">Time intelligence</span>
+    </div>
+    <p>Before the journey, Sahayatri watches two live signals simultaneously: the train's running status (via NTES / Where Is My Train API) and the user's GPS position relative to the boarding station. These are combined into a single actionable answer to the passenger's real question: <em>when do I need to leave?</em></p>
+    <ul class="fl">
+      <li><strong>Nikalne ka waqt</strong> — dynamic "leave now" alert adjusted for both live delay and current commute time to station</li>
+      <li>If the train is 45 minutes late, the departure alert is pushed forward 45 minutes automatically</li>
+      <li>Progressive delay escalation — as delay grows, nudge frequency and urgency increase</li>
+      <li>Live on-time / late indicator on the Yatra Card with estimated platform arrival time</li>
+    </ul>
+  </div>
+
+  <div class="pillar">
+    <div class="pillar-h">
+      <span class="pname">Safar Rakshak</span>
+      <span class="phindi">सफर रक्षक</span>
+      <span class="ptag a">Journey guardian</span>
+    </div>
+    <p>Once the journey begins, Sahayatri becomes a guardian. It switches to GPS-based position tracking, mapping real-world coordinates against the pre-loaded Indian Railways track shapefile. This works entirely offline — GPS hardware operates via satellite, independent of cellular connectivity.</p>
+    <ul class="fl">
+      <li>Continuous Haversine distance calculation from current position to destination station</li>
+      <li>GPS coordinates snapped to nearest point on track shapefile — train icon always on the line, never floating over fields</li>
+      <li>Breadcrumb trail stored locally in SQLite — full positional history of the journey</li>
+      <li>Variable GPS polling rate: 15 min / 5 min / 60 sec based on distance threshold</li>
+      <li>Batch sync to server when connectivity returns — never blocks the offline experience</li>
+      <li><strong>Utarne ki alarm</strong> — geofence-triggered destination alarm based on physical distance (GPS), not scheduled time</li>
+      <li><strong>Vishram Mode</strong> — all notifications silenced except the Utarne ki alarm; passengers sleep peacefully on overnight journeys</li>
+    </ul>
+    <div class="callout" style="margin-top:.75rem">
+      The smart alarm is the defining feature. A traditional alarm wakes the passenger at 4:00 AM. Sahayatri checks GPS: the train is still 100 km away. The alarm is silently suppressed. At 5:50 AM, the geofence fires — the user wakes up 10 minutes from their station, regardless of delay.
+    </div>
+  </div>
+
+  <div class="pillar">
+    <div class="pillar-h">
+      <span class="pname">Rail Darshan</span>
+      <span class="phindi">रेल दर्शन</span>
+      <span class="ptag p">Track visualiser</span>
+    </div>
+    <p>Sahayatri ships with a full station-by-station map of Indian Railways routes built from physical track geodata (OpenStreetMap + OGD India). The user's train appears as a live position dot moving along the actual track — not a road map.</p>
+    <ul class="fl">
+      <li>Physical railway shapefiles rendered as a vector map layer (track-only view, uncluttered)</li>
+      <li>All intermediate stations labelled with name, code, and distance from current position</li>
+      <li>Live train position updated from GPS breadcrumb data and snapped to the shapefile</li>
+      <li>Expected time of arrival at each upcoming station</li>
+      <li><strong>Vilamba flag</strong> — delayed train's position dot visually lags behind its scheduled position on the map, making delay intuitively obvious without reading numbers</li>
+      <li>Map works fully offline after a one-time tile pack download (Mapbox offline caching)</li>
+      <li>Shareable live view — family at the destination station can watch the dot and know exactly when to head to the platform</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 04 TECH SPEC -->
+<section id="tech">
+  <h2>04 · Technical specification</h2>
+  <div class="sh">The algorithms and logic that make Sahayatri work</div>
+
+  <h3>4.1 Distance engine — Haversine formula</h3>
+  <p>All distance calculations between the device's GPS position and any station coordinate use the Haversine great-circle formula. This accounts for the Earth's spherical curvature and delivers accurate results over India's vast rail network, which spans thousands of kilometres across varying terrain:</p>
+  <div class="formula">
+d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) · sin²((λ₂ − λ₁) / 2) ) )
+<span class="cm">φ = latitude in radians   |   λ = longitude in radians   |   r = 6,371 km (Earth's mean radius)</span>
+  </div>
+  <p>This runs entirely on-device in native Kotlin (Android) or Swift (iOS) — no external library, no network request. The resulting distance d is recalculated at every GPS poll and compared against the user's alarm threshold to determine whether to fire the Utarne ki alarm or escalate to a higher polling tier.</p>
+
+  <h3>4.2 GPS-to-track snapping</h3>
+  <p>Raw GPS coordinates have accuracy of ±10–50 metres and can place the train icon off the track, especially in the Western Ghats, the Northeast hill regions, or urban corridors where multipath signal interference is common. Sahayatri solves this in two steps.</p>
+  <p>First, the app bundles Indian Railways shapefiles — geographic path data describing the physical route of every rail line in India — as a compressed offline asset. A spatial index (R-tree or KD-tree) is built over this data at first launch for fast nearest-point lookup. When a new GPS coordinate arrives, the app finds the nearest point on the shapefile and snaps the position marker to it. The train icon always appears on the track.</p>
+  <p>Second, for stretches with parallel tracks at major junctions, the snapping algorithm uses the known route (loaded from the Yatra Card) to select the correct track segment — preventing the icon from jumping to an adjacent line.</p>
+
+  <h3>4.3 Variable polling rate and battery management</h3>
+  <p>Running GPS at full frequency on a 24-hour overnight journey drains a phone battery long before arrival. Sahayatri implements a three-tier adaptive polling strategy:</p>
+
+  <div class="dw">
+    <svg width="100%" viewBox="0 0 680 268" role="img">
+      <title>Variable GPS polling rate zones</title>
+      <desc>Three zones based on distance to destination. Beyond 50km: poll every 15 minutes. 20 to 50km: every 5 minutes. Under 20km: every 60 seconds. A 5km geofence around the destination triggers the Utarne ki alarm.</desc>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5"/>
+        </marker>
+      </defs>
+      <!-- Zone fills -->
+      <rect x="60" y="116" width="320" height="38" fill="#1D9E7520"/>
+      <rect x="380" y="116" width="120" height="38" fill="#BA751720"/>
+      <rect x="500" y="116" width="120" height="38" fill="#E24B4A20"/>
+      <!-- Track -->
+      <line x1="60" y1="135" x2="620" y2="135" stroke="#888" stroke-width="2.5" opacity="0.45"/>
+      <!-- Dividers -->
+      <line x1="380" y1="106" x2="380" y2="166" stroke="#888" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.5"/>
+      <line x1="500" y1="106" x2="500" y2="166" stroke="#888" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.5"/>
+      <!-- Boarding station -->
+      <circle cx="60" cy="135" r="7" fill="white" stroke="#888" stroke-width="1.5"/>
+      <!-- Destination X -->
+      <circle cx="620" cy="135" r="9" fill="white" stroke="#888" stroke-width="2"/>
+      <line x1="614" y1="129" x2="626" y2="141" stroke="#888" stroke-width="1.5"/>
+      <line x1="626" y1="129" x2="614" y2="141" stroke="#888" stroke-width="1.5"/>
+      <!-- Train -->
+      <rect x="162" y="120" width="54" height="30" rx="7" fill="white" stroke="#888" stroke-width="1"/>
+      <rect x="168" y="125" width="13" height="11" rx="2" fill="#888" opacity="0.25"/>
+      <rect x="186" y="125" width="13" height="11" rx="2" fill="#888" opacity="0.25"/>
+      <line x1="218" y1="135" x2="236" y2="135" stroke="#888" stroke-width="1" marker-end="url(#arr)" opacity="0.5"/>
+      <!-- Labels -->
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#888" x="60" y="188" text-anchor="middle">Boarding</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#888" x="620" y="188" text-anchor="middle">Destination</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#888" x="220" y="172" text-anchor="middle">more than 50 km</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#888" x="440" y="172" text-anchor="middle">20 – 50 km</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#888" x="560" y="172" text-anchor="middle">less than 20 km</text>
+      <!-- Badge: green -->
+      <rect x="155" y="50" width="130" height="44" rx="9" fill="#1D9E7518" stroke="#1D9E75" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="13" fill="#085041" x="220" y="69" text-anchor="middle">Every 15 min</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#085041" x="220" y="87" text-anchor="middle" opacity="0.8">battery-friendly cruise</text>
+      <line x1="220" y1="94" x2="220" y2="116" stroke="#888" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.35"/>
+      <!-- Badge: amber -->
+      <rect x="384" y="50" width="114" height="44" rx="9" fill="#BA751720" stroke="#BA7517" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="13" fill="#633806" x="441" y="69" text-anchor="middle">Every 5 min</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="441" y="87" text-anchor="middle" opacity="0.8">approach mode</text>
+      <line x1="441" y1="94" x2="441" y2="116" stroke="#888" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.35"/>
+      <!-- Badge: red -->
+      <rect x="505" y="50" width="114" height="44" rx="9" fill="#E24B4A18" stroke="#E24B4A" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="13" fill="#A32D2D" x="562" y="69" text-anchor="middle">Every 60 sec</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#A32D2D" x="562" y="87" text-anchor="middle" opacity="0.8">precision arrival</text>
+      <line x1="562" y1="94" x2="562" y2="116" stroke="#888" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.35"/>
+      <!-- Geofence -->
+      <circle cx="620" cy="135" r="62" fill="none" stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 4" opacity="0.45"/>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#A32D2D" x="620" y="224" text-anchor="middle" opacity="0.8">5 km geofence</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#A32D2D" x="620" y="240" text-anchor="middle" opacity="0.8">Utarne ki alarm fires here</text>
+    </svg>
+    <div class="dc">Variable polling rate zones — GPS frequency adapts automatically as the train approaches the destination. Average GPS-active time stays under 5% of total journey duration during the cruise phase.</div>
+  </div>
+
+  <h3>4.4 Smart GPS-adjusted alarm — not clock-adjusted</h3>
+  <p>This is the defining feature of Safar Rakshak. Conventional travel alarms fire at a scheduled time. If the train is 2 hours late, the alarm fires when the train is still 150 km from the destination — waking the passenger unnecessarily and leaving them stranded in the early hours.</p>
+  <p>Sahayatri's Utarne ki alarm is driven by GPS distance, not the clock. The geofence fires when the Haversine distance d falls below the user's threshold (default 5 km, configurable from 2 to 20 km). The same logic governs the pre-journey departure alert — it is held or released based on live delay and current GPS position from home, not a fixed clock offset.</p>
+
+  <h3>4.5 Breadcrumb trail and offline continuity</h3>
+  <p>GPS hardware operates via satellite signal independent of cellular networks — it functions in the Chambal ravines, the Western Ghats, and every tunnel in between. Sahayatri records every GPS coordinate as a breadcrumb point in a local SQLite database, enabling:</p>
+  <ul class="fl">
+    <li>Smooth track map position interpolation during cellular signal gaps</li>
+    <li>Speed-based ETA recalculation using average speed over recent breadcrumbs</li>
+    <li>Full journey trajectory synced to the server as a single batch when connectivity returns</li>
+    <li>Post-journey route review for the user</li>
+  </ul>
+  <div class="guarantee">
+    <div class="gt">The offline guarantee</div>
+    <p>Everything required for the journey — the track shapefile, station coordinates, timetable, GPS alarm logic, and offline map tiles — is resident on-device before departure. Sahayatri never requires a network connection to protect the passenger during travel.</p>
+  </div>
+</section>
+
+<!-- 05 ARCHITECTURE -->
+<section id="arch">
+  <h2>05 · System architecture</h2>
+  <div class="sh">Four layers, one seamless experience</div>
+  <div class="dw">
+    <svg width="100%" viewBox="0 0 680 690" role="img">
+      <title>Sahayatri full system architecture</title>
+      <desc>Four stacked layers: Layer 1 Yatra Khoj with email scanner, SMS parser, Yatra card and station geo-pin. Layer 2 Samay Suchna with train status API, Nikalne ka waqt, delay escalation and Geo ETA. Layer 3 Safar Rakshak with GPS Haversine engine, batch sync, Utarne ki alarm and Vishram mode. Layer 4 Rail Darshan with track shapefile, Gaadi ki jagah, station ETAs and Vilamba flag.</desc>
+      <defs>
+        <marker id="arx" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- L1 TEAL -->
+      <rect x="30" y="20" width="620" height="128" rx="14" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="14" fill="#085041" x="50" y="46">Yatra Khoj · यात्रा खोज · Journey detection</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#0f6e56" x="50" y="64" opacity="0.85">Auto-detect upcoming journeys from email and SMS</text>
+      <rect x="50" y="74" width="128" height="58" rx="8" fill="#fff" stroke="#1D9E75" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#085041" x="114" y="99" text-anchor="middle">Email scanner</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#0f6e56" x="114" y="117" text-anchor="middle">IRCTC booking mails</text>
+      <rect x="192" y="74" width="128" height="58" rx="8" fill="#fff" stroke="#1D9E75" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#085041" x="256" y="99" text-anchor="middle">SMS parser</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#0f6e56" x="256" y="117" text-anchor="middle">PNR confirmation SMS</text>
+      <rect x="334" y="74" width="128" height="58" rx="8" fill="#fff" stroke="#1D9E75" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#085041" x="398" y="99" text-anchor="middle">Yatra card</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#0f6e56" x="398" y="117" text-anchor="middle">PNR · seat · coach · stations</text>
+      <rect x="476" y="74" width="162" height="58" rx="8" fill="#fff" stroke="#1D9E75" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#085041" x="557" y="99" text-anchor="middle">Station geo-pin</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#0f6e56" x="557" y="117" text-anchor="middle">Boarding &amp; destination</text>
+
+      <line x1="340" y1="148" x2="340" y2="168" stroke="#888" stroke-width="1" opacity="0.4" marker-end="url(#arx)"/>
+
+      <!-- L2 CORAL -->
+      <rect x="30" y="170" width="620" height="144" rx="14" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="14" fill="#4A1B0C" x="50" y="196">Samay Suchna · समय सूचना · Time intelligence</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#712B13" x="50" y="214" opacity="0.85">Real-time train status, smart departure alerts and escalating delay nudges</text>
+      <rect x="50" y="224" width="128" height="72" rx="8" fill="#fff" stroke="#993C1D" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#4A1B0C" x="114" y="249" text-anchor="middle">Train status</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="114" y="267" text-anchor="middle">On time / running late</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="114" y="283" text-anchor="middle">delay in minutes</text>
+      <rect x="192" y="224" width="128" height="72" rx="8" fill="#fff" stroke="#993C1D" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#4A1B0C" x="256" y="249" text-anchor="middle">Nikalne ka waqt</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="256" y="267" text-anchor="middle">Smart "leave now" alert</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="256" y="283" text-anchor="middle">adjusted for live delay</text>
+      <rect x="334" y="224" width="128" height="72" rx="8" fill="#fff" stroke="#993C1D" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#4A1B0C" x="398" y="249" text-anchor="middle">Delay escalation</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="398" y="267" text-anchor="middle">Progressive nudges as</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="398" y="283" text-anchor="middle">delay grows</text>
+      <rect x="476" y="224" width="162" height="72" rx="8" fill="#fff" stroke="#993C1D" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#4A1B0C" x="557" y="249" text-anchor="middle">Geo ETA</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="557" y="267" text-anchor="middle">Drive time to</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#712B13" x="557" y="283" text-anchor="middle">boarding station</text>
+
+      <line x1="340" y1="314" x2="340" y2="334" stroke="#888" stroke-width="1" opacity="0.4" marker-end="url(#arx)"/>
+
+      <!-- L3 AMBER -->
+      <rect x="30" y="336" width="620" height="158" rx="14" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="14" fill="#412402" x="50" y="362">Safar Rakshak · सफर रक्षक · Journey guardian</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#633806" x="50" y="380" opacity="0.85">Offline GPS tracking — works in tunnels and remote areas, syncs when online</text>
+      <rect x="50" y="390" width="128" height="86" rx="8" fill="#fff" stroke="#854F0B" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#412402" x="114" y="415" text-anchor="middle">GPS + Haversine</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="114" y="433" text-anchor="middle">Offline distance</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="114" y="449" text-anchor="middle">tracking + breadcrumb</text>
+      <rect x="192" y="390" width="128" height="86" rx="8" fill="#fff" stroke="#854F0B" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#412402" x="256" y="415" text-anchor="middle">Variable polling</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="256" y="433" text-anchor="middle">15 min / 5 min</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="256" y="449" text-anchor="middle">60 sec by zone</text>
+      <rect x="334" y="390" width="128" height="86" rx="8" fill="#fff" stroke="#854F0B" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#412402" x="398" y="415" text-anchor="middle">Utarne ki alarm</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="398" y="433" text-anchor="middle">5 km geofence trigger</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="398" y="449" text-anchor="middle">GPS-driven, not clock</text>
+      <rect x="476" y="390" width="162" height="86" rx="8" fill="#fff" stroke="#854F0B" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#412402" x="557" y="415" text-anchor="middle">Vishram mode</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="557" y="433" text-anchor="middle">All alerts suppressed</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#633806" x="557" y="449" text-anchor="middle">except station alarm</text>
+
+      <line x1="340" y1="494" x2="340" y2="514" stroke="#888" stroke-width="1" opacity="0.4" marker-end="url(#arx)"/>
+
+      <!-- L4 PURPLE -->
+      <rect x="30" y="516" width="620" height="154" rx="14" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="14" fill="#26215C" x="50" y="542">Rail Darshan · रेल दर्शन · Track visualiser</text>
+      <text font-family="-apple-system,sans-serif" font-size="12" fill="#3C3489" x="50" y="560" opacity="0.85">Indian Railways map with live train position, station ETAs and delay visualisation</text>
+      <rect x="50" y="570" width="128" height="82" rx="8" fill="#fff" stroke="#534AB7" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#26215C" x="114" y="596" text-anchor="middle">Track shapefile</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="114" y="614" text-anchor="middle">Physical railway lines</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="114" y="630" text-anchor="middle">all stations</text>
+      <rect x="192" y="570" width="128" height="82" rx="8" fill="#fff" stroke="#534AB7" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#26215C" x="256" y="596" text-anchor="middle">Gaadi ki jagah</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="256" y="614" text-anchor="middle">Live snapped position</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="256" y="630" text-anchor="middle">on track map</text>
+      <rect x="334" y="570" width="128" height="82" rx="8" fill="#fff" stroke="#534AB7" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#26215C" x="398" y="596" text-anchor="middle">Station ETAs</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="398" y="614" text-anchor="middle">Expected arrival time</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="398" y="630" text-anchor="middle">at each upcoming stop</text>
+      <rect x="476" y="570" width="162" height="82" rx="8" fill="#fff" stroke="#534AB7" stroke-width="0.5" opacity="0.65"/>
+      <text font-family="-apple-system,sans-serif" font-weight="500" font-size="12" fill="#26215C" x="557" y="596" text-anchor="middle">Vilamba flag</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="557" y="614" text-anchor="middle">Visual delay vs</text>
+      <text font-family="-apple-system,sans-serif" font-size="11" fill="#3C3489" x="557" y="630" text-anchor="middle">schedule on map</text>
+    </svg>
+    <div class="dc">Four-layer architecture — each layer builds on the data and infrastructure established by the one above it</div>
+  </div>
+</section>
+
+<!-- 06 TECH STACK -->
+<section id="stack">
+  <h2>06 · Technology stack</h2>
+  <div class="sh">Recommended implementation choices</div>
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Recommended approach</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">Email parsing</td><td>Gmail / Outlook OAuth API</td><td>On-device regex extraction; message content never transmitted</td></tr>
+      <tr><td class="tdb">SMS parsing</td><td>Android SMS ContentProvider</td><td>READ_SMS with clear rationale; iOS requires Share Sheet / manual fallback</td></tr>
+      <tr><td class="tdb">Distance engine</td><td>Native Kotlin / Swift — Haversine</td><td>Zero dependencies; no network call; runs fully on-device</td></tr>
+      <tr><td class="tdb">Track shapefile</td><td>OSM + OGD India rail data</td><td>Bundled offline; spatial R-tree / KD-tree index for fast GPS snapping</td></tr>
+      <tr><td class="tdb">Offline database</td><td>SQLite (compressed)</td><td>Journey data, GPS breadcrumbs, shapefile index — zero-dependency store</td></tr>
+      <tr><td class="tdb">Map rendering</td><td>Mapbox SDK</td><td>Offline tile caching, vector track-only layer, smooth position animation</td></tr>
+      <tr><td class="tdb">Live train status</td><td>NTES / Where Is My Train / RailYatri API</td><td>Real-time delay data with fallback chain if one source is unavailable</td></tr>
+      <tr><td class="tdb">Backend sync</td><td>Firebase Realtime Database</td><td>Push delay updates to device; batch breadcrumb upload via REST</td></tr>
+      <tr><td class="tdb">Background GPS</td><td>Android WorkManager / iOS BGTaskScheduler</td><td>OS-native background execution with battery optimisation</td></tr>
+      <tr><td class="tdb">Geofence alarm</td><td>Custom variable-rate scheduler</td><td>Three-tier polling tied to Haversine distance thresholds; not OS geofence API (too imprecise)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 07 PLATFORM -->
+<section id="platform">
+  <h2>07 · Platform considerations</h2>
+  <div class="sh">Android and iOS behave differently — both paths are designed</div>
+  <div class="pgrid">
+    <div class="pc">
+      <h4>Android</h4>
+      <p style="font-size:14px">READ_SMS permission is available but scrutinised by Google Play — typically approved only for messaging-primary apps. Sahayatri must accompany the request with a clear permission rationale screen. All SMS reading is on-device only; filter strictly to known IRCTC sender IDs. Offer manual PNR entry and QR scan as alternatives for users who decline. The journey experience (tracking, alarms, map) is unaffected by this choice.</p>
+    </div>
+    <div class="pc">
+      <h4>iOS</h4>
+      <p style="font-size:14px">Third-party apps cannot read SMS. The primary detection flow relies on email parsing via Gmail / Outlook OAuth. Secondary options: a Share Sheet extension (user shares booking message into Sahayatri from any app), manual PNR entry with auto-fill, or camera-based QR code reading from e-tickets. The full journey experience — GPS tracking, Vishram Mode, Rail Darshan, Utarne ki alarm — is identical on both platforms once the journey is loaded.</p>
+    </div>
+  </div>
+  <h3>Privacy principles</h3>
+  <ul class="fl">
+    <li>All message parsing (email and SMS) happens on-device — no raw content is sent to any server</li>
+    <li>Only extracted structured data (PNR, stations, times) is stored — original messages are never retained by the app</li>
+    <li>GPS breadcrumbs are stored locally and synced only in aggregate, never streamed in real time</li>
+    <li>User can delete all journey data and location history from within the app at any time</li>
+    <li>No advertising, no third-party analytics SDKs with access to journey or location data</li>
+  </ul>
+</section>
+
+<!-- 08 ROADMAP -->
+<section id="roadmap">
+  <h2>08 · Phased roadmap</h2>
+  <div class="sh">Train first — multimodal later</div>
+  <p>Indian Railways is the right foundation: it is the most complex transport mode (longest journeys, most acute offline need, most structured booking data) and the largest addressable base. Every data model and infrastructure decision made in Phase 1–4 is designed to carry forward to flights, buses, and metro in Phase 5.</p>
+  <table>
+    <thead>
+      <tr><th>Phase</th><th>Milestone</th><th>Scope</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pbadge">Phase 1</span></td>
+        <td class="tdb">Yatra Khoj</td>
+        <td>Email / SMS parsing, Yatra Card display, PNR status check, manual PNR entry fallback</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge">Phase 2</span></td>
+        <td class="tdb">Samay Suchna</td>
+        <td>Live train status integration, Nikalne ka waqt alert, delay escalation, geo-adjusted departure nudge</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge">Phase 3</span></td>
+        <td class="tdb">Safar Rakshak</td>
+        <td>Offline GPS tracking, variable polling (15 min / 5 min / 60 sec), Utarne ki alarm, Vishram Mode, breadcrumb sync</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge">Phase 4</span></td>
+        <td class="tdb">Rail Darshan</td>
+        <td>Track shapefile rendering, GPS-to-track snapping, live position marker, station ETAs, Vilamba delay flag</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge">Phase 5</span></td>
+        <td class="tdb">Multi-modal</td>
+        <td>Flight journey parsing (e-ticket / PNR), bus tracking, metro support, unified Yatra timeline across all modes</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 09 PHILOSOPHY -->
+<section id="philosophy">
+  <h2>09 · Design philosophy</h2>
+  <div class="sh">What Sahayatri feels like to use</div>
+  <p>The Indian train journey is a deeply human experience. People share berths, eat together, talk to strangers, watch the landscape pass in the dark. Sahayatri is designed to disappear into the background of that experience — not demand attention, not bombard with notifications, not turn the journey into a data dashboard.</p>
+  <p>It speaks when spoken to. It alarms when necessary. When the train is on time and the passenger is asleep, it does nothing at all — except watch.</p>
+  <div class="callout">
+    Every product decision flows from this. Variable polling exists so the battery outlasts the journey. Vishram Mode exists so the passenger can close their eyes. The GPS-adjusted alarm exists so a late train does not steal sleep from a tired traveller. Rail Darshan exists so family at the destination can stop refreshing their phones and simply watch the dot move.
+  </div>
+  <p>The name is not a feature name or a marketing term. It is a commitment. Sahayatri is your fellow traveller, and a fellow traveller does not let you miss your station.</p>
+  <hr>
+  <div class="footer">
+    Sahayatri · सहयात्री · Complete Product Design v1.0<br>
+    Aapka saathi, har safar mein · Your companion, every journey
+  </div>
+</section>
+
+</body>
+</html>
