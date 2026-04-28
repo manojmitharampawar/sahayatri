@@ -144,7 +144,19 @@ func (h *FamilyHandler) LiveWebSocket(c *gin.Context) {
 		return
 	}
 
-	userID := c.GetInt64("user_id")
+	token := c.Query("token")
+	if token == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing token query parameter"})
+		return
+	}
+
+	claims, err := h.jwt.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired token"})
+		return
+	}
+
+	userID := claims.UserID
 
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {

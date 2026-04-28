@@ -65,7 +65,9 @@ func NewRouter(
 	protected.GET("/family/:id", familyHandler.GetGroup)
 	protected.POST("/family/:id/members", familyHandler.AddMember)
 	protected.DELETE("/family/:id/members/:userId", familyHandler.RemoveMember)
-	protected.GET("/family/live/:yatraId", familyHandler.LiveWebSocket)
+
+	// WebSocket route (public — auth via query param token)
+	v1.GET("/family/live/:yatraId", familyHandler.LiveWebSocket)
 
 	// Shapefile routes
 	shapeHandler := NewShapefileHandler(shapeLoader)
