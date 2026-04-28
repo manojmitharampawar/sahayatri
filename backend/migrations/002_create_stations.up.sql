@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS stations (
+    id BIGSERIAL PRIMARY KEY,
+    code VARCHAR(10) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    lat DOUBLE PRECISION NOT NULL DEFAULT 0,
+    lon DOUBLE PRECISION NOT NULL DEFAULT 0,
+    zone VARCHAR(10) NOT NULL DEFAULT ''
+);
+
+CREATE INDEX idx_stations_code ON stations(code);
+CREATE INDEX idx_stations_name ON stations(name);
