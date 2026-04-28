@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sahayatri — Complete Product Design</title>
+<title>Sahayatri — Complete Product Design v2.0</title>
 <style>
 :root {
   --bg:#ffffff;--bg2:#f7f6f3;--bg3:#eeecea;
@@ -146,7 +146,7 @@ hr{border:none;border-top:.5px solid var(--br);margin:2rem 0}
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-label">Complete Product Design Document · v1.0 · Indian Railways</div>
+  <div class="cover-label">Complete Product Design Document · v2.0 · Indian Railways</div>
   <div class="cover-title">Sahayatri</div>
   <div class="cover-dev">सहयात्री</div>
   <div class="cover-tag">Aapka saathi, har safar mein</div>
@@ -167,12 +167,20 @@ hr{border:none;border-top:.5px solid var(--br);margin:2rem 0}
     <li><span class="n">01</span><a href="#problem">The problem</a></li>
     <li><span class="n">02</span><a href="#vision">Product vision</a></li>
     <li><span class="n">03</span><a href="#pillars">Core product pillars</a></li>
+    <li><span class="n">03.5</span><a href="#ftux">First journey flow</a></li>
+    <li><span class="n">03.6</span><a href="#shared">Shared journeys</a></li>
+    <li><span class="n">03.7</span><a href="#post-arrival">Post-arrival experience</a></li>
     <li><span class="n">04</span><a href="#tech">Technical specification</a></li>
+    <li><span class="n">04.6</span><a href="#failure-modes">Failure modes &amp; graceful degradation</a></li>
     <li><span class="n">05</span><a href="#arch">System architecture</a></li>
     <li><span class="n">06</span><a href="#stack">Technology stack</a></li>
     <li><span class="n">07</span><a href="#platform">Platform considerations</a></li>
+    <li><span class="n">07.5</span><a href="#device-locale">Device &amp; locale matrix</a></li>
     <li><span class="n">08</span><a href="#roadmap">Phased roadmap</a></li>
-    <li><span class="n">09</span><a href="#philosophy">Design philosophy</a></li>
+    <li><span class="n">08.5</span><a href="#kpis">Success metrics</a></li>
+    <li><span class="n">09</span><a href="#notifications">Notification design system</a></li>
+    <li><span class="n">10</span><a href="#security">Security &amp; OAuth token management</a></li>
+    <li><span class="n">11</span><a href="#philosophy">Design philosophy</a></li>
   </ol>
 </div>
 
@@ -280,6 +288,100 @@ hr{border:none;border-top:.5px solid var(--br);margin:2rem 0}
   </div>
 </section>
 
+<!-- 03.5 FIRST JOURNEY FLOW -->
+<section id="ftux">
+  <h2>03.5 · First journey flow</h2>
+  <div class="sh">Onboarding, permissions, and the empty state</div>
+
+  <h3>Progressive permission request</h3>
+  <p>Asking for SMS, Location, and Email OAuth permissions all at once causes massive drop-off. Sahayatri uses a stepped permission flow that builds trust incrementally:</p>
+  <ul class="fl">
+    <li><strong>Step 1 — Location (at install):</strong> Required for core GPS tracking. Explained as "so we can wake you up before your station"</li>
+    <li><strong>Step 2 — Email OAuth (first launch):</strong> Presented with a clear value proposition: "We'll find your IRCTC bookings automatically." Offer "Skip — I'll enter my PNR" as an equal-weight alternative</li>
+    <li><strong>Step 3 — SMS (deferred, Android only):</strong> Requested only after the user has completed one journey or explicitly taps "Scan SMS for bookings." Never requested on first launch</li>
+  </ul>
+
+  <h3>Empty state design</h3>
+  <p>A user who installs Sahayatri with no upcoming journey must not see a blank screen. The empty state shows:</p>
+  <ul class="fl">
+    <li>A prominent "Enter PNR" field as the primary call-to-action</li>
+    <li>A secondary "Scan QR code from e-ticket" button</li>
+    <li>A brief animated illustration showing how the Yatra Card works</li>
+    <li>A "Connect Email" card if OAuth has not been granted yet</li>
+  </ul>
+
+  <h3>Transparency receipt</h3>
+  <p>After every email or SMS scan, Sahayatri displays a transparency receipt:</p>
+  <div class="callout">
+    "We scanned your inbox and found 1 IRCTC booking. Here's what we extracted: [PNR, train name, date]. No other messages were read or stored."
+  </div>
+  <p>This builds trust with privacy-conscious users and satisfies Google Play's permission rationale requirements for READ_SMS.</p>
+</section>
+
+<!-- 03.6 SHARED JOURNEYS -->
+<section id="shared">
+  <h2>03.6 · Shared journeys</h2>
+  <div class="sh">Group travel, family tracking, and co-passenger features</div>
+
+  <h3>Yatra Card sharing</h3>
+  <p>Indian rail travel is inherently social — families book 4–6 tickets together. One person installs Sahayatri; others need the same alerts. The Yatra Card supports sharing via:</p>
+  <ul class="fl">
+    <li><strong>Deep link:</strong> A unique URL that opens the Yatra Card in the recipient's Sahayatri app (or prompts install)</li>
+    <li><strong>QR code:</strong> Displayed on-screen for in-person sharing at the station</li>
+    <li><strong>WhatsApp / SMS share:</strong> One-tap share button generates a pre-formatted message with the deep link</li>
+  </ul>
+
+  <h3>Family live view</h3>
+  <p>The "shareable live view" from Rail Darshan is a lightweight web page — no app install required. Family at the destination station open the link in any browser and see the train dot moving on the map in real time.</p>
+  <ul class="fl">
+    <li>Link is generated from within the Yatra Card with a single tap</li>
+    <li>Web view shows: train position on map, current speed, ETA at destination, delay status</li>
+    <li>Link expires automatically 1 hour after arrival at the destination station</li>
+    <li>No login required for viewers — read-only, anonymous access</li>
+  </ul>
+
+  <h3>Co-passenger awareness</h3>
+  <p>After chart preparation, IRCTC reveals nearby passengers. Sahayatri can surface this as a safety and social feature:</p>
+  <ul class="fl">
+    <li>Display coach and berth layout with occupied/vacant indicators</li>
+    <li>Optional: allow Sahayatri users in the same coach to see each other (opt-in only)</li>
+  </ul>
+</section>
+
+<!-- 03.7 POST-ARRIVAL EXPERIENCE -->
+<section id="post-arrival">
+  <h2>03.7 · Post-arrival experience</h2>
+  <div class="sh">The journey doesn't end at the station</div>
+
+  <h3>Journey summary card</h3>
+  <p>After arrival, Sahayatri generates a visual journey summary:</p>
+  <ul class="fl">
+    <li>Total distance travelled and duration</li>
+    <li>Number of stations passed</li>
+    <li>Delay encountered (total minutes, max delay point)</li>
+    <li>Route map with the breadcrumb trail overlaid on the track shapefile</li>
+    <li>Shareable as an image card (Instagram story / WhatsApp status format)</li>
+  </ul>
+
+  <h3>Alarm calibration feedback</h3>
+  <p>A single-question feedback prompt after each journey:</p>
+  <div class="callout">
+    "Did the alarm wake you at the right time?" — Too early / Just right / Too late
+  </div>
+  <p>This feedback is used to calibrate the geofence threshold per user. If a user consistently reports "too early," the default 5 km radius is tightened. If "too late," it is expanded. Over time, the alarm becomes personalised.</p>
+
+  <h3>Journey history</h3>
+  <p>All past journeys are archived in a timeline view, useful for:</p>
+  <ul class="fl">
+    <li>Frequent travellers tracking their routes</li>
+    <li>Expense reports and reimbursement documentation</li>
+    <li>Nostalgia — revisiting past journeys on the map</li>
+  </ul>
+
+  <h3>Contextual app review prompt</h3>
+  <p>The app store review prompt is shown only after a successful alarm wake-up — the moment of highest user satisfaction. Never shown on first journey or after a failed alarm.</p>
+</section>
+
 <!-- 04 TECH SPEC -->
 <section id="tech">
   <h2>04 · Technical specification</h2>
@@ -297,6 +399,15 @@ d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) �
   <p>Raw GPS coordinates have accuracy of ±10–50 metres and can place the train icon off the track, especially in the Western Ghats, the Northeast hill regions, or urban corridors where multipath signal interference is common. Sahayatri solves this in two steps.</p>
   <p>First, the app bundles Indian Railways shapefiles — geographic path data describing the physical route of every rail line in India — as a compressed offline asset. A spatial index (R-tree or KD-tree) is built over this data at first launch for fast nearest-point lookup. When a new GPS coordinate arrives, the app finds the nearest point on the shapefile and snaps the position marker to it. The train icon always appears on the track.</p>
   <p>Second, for stretches with parallel tracks at major junctions, the snapping algorithm uses the known route (loaded from the Yatra Card) to select the correct track segment — preventing the icon from jumping to an adjacent line.</p>
+
+  <h4>Kalman filter pre-processing</h4>
+  <p>Raw GPS coordinates jump erratically, especially at low speeds or in urban canyons. Before snapping, Sahayatri applies a lightweight Kalman filter to smooth the position stream. This reduces visual jitter on the Rail Darshan map and improves snapping accuracy by filtering out transient noise spikes.</p>
+
+  <h4>Speed-weighted snapping confidence</h4>
+  <p>A GPS point 200 metres off-track at 80 km/h is noise — the same point at 0 km/h might mean the train has stopped at a siding or yard. The snapping algorithm uses instantaneous speed as a confidence weight: at high speed, aggressive snapping to the nearest track point; at low speed or stationary, the raw position is preserved with a wider tolerance band.</p>
+
+  <h4>Tunnel and GPS-gap interpolation</h4>
+  <p>GPS signal is lost in tunnels and deep cuttings. When no GPS fix is received for more than 30 seconds, Sahayatri switches to dead-reckoning interpolation: the map dot continues moving along the track shapefile at the last known speed. When GPS signal returns, the position is smoothly corrected to the actual fix. This prevents the dot from "freezing" and then "jumping" — a common and disorienting UX failure in competing apps.</p>
 
   <h3>4.3 Variable polling rate and battery management</h3>
   <p>Running GPS at full frequency on a 24-hour overnight journey drains a phone battery long before arrival. Sahayatri implements a three-tier adaptive polling strategy:</p>
@@ -359,6 +470,30 @@ d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) �
     <div class="dc">Variable polling rate zones — GPS frequency adapts automatically as the train approaches the destination. Average GPS-active time stays under 5% of total journey duration during the cruise phase.</div>
   </div>
 
+  <h3>4.3.1 API fallback waterfall for Samay Suchna</h3>
+  <p>Samay Suchna depends on external APIs for live train status. A single-source dependency is unacceptable for a travel-critical app. Sahayatri implements an explicit fallback waterfall:</p>
+
+  <div class="formula">
+NTES API (primary, 30s timeout)
+  → RailYatri API (secondary, 20s timeout)
+    → Where Is My Train API (tertiary, 15s timeout)
+      → Last known status + "stale data" badge on Yatra Card
+  </div>
+
+  <p>Polling cadence adapts to journey proximity:</p>
+  <table>
+    <thead>
+      <tr><th>Time to departure</th><th>Status poll interval</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">More than 6 hours</td><td>Every 15 minutes</td></tr>
+      <tr><td class="tdb">2 – 6 hours</td><td>Every 5 minutes</td></tr>
+      <tr><td class="tdb">Under 2 hours</td><td>Every 2 minutes</td></tr>
+      <tr><td class="tdb">Under 30 minutes</td><td>Every 1 minute</td></tr>
+    </tbody>
+  </table>
+  <p>If all three API sources fail simultaneously, the Yatra Card displays the last known delay value with a timestamp and a "Data may be outdated" warning. The GPS-based tracking and alarm system continues to function independently — it never depends on API availability.</p>
+
   <h3>4.4 Smart GPS-adjusted alarm — not clock-adjusted</h3>
   <p>This is the defining feature of Safar Rakshak. Conventional travel alarms fire at a scheduled time. If the train is 2 hours late, the alarm fires when the train is still 150 km from the destination — waking the passenger unnecessarily and leaving them stranded in the early hours.</p>
   <p>Sahayatri's Utarne ki alarm is driven by GPS distance, not the clock. The geofence fires when the Haversine distance d falls below the user's threshold (default 5 km, configurable from 2 to 20 km). The same logic governs the pre-journey departure alert — it is held or released based on live delay and current GPS position from home, not a fixed clock offset.</p>
@@ -375,6 +510,47 @@ d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) �
     <div class="gt">The offline guarantee</div>
     <p>Everything required for the journey — the track shapefile, station coordinates, timetable, GPS alarm logic, and offline map tiles — is resident on-device before departure. Sahayatri never requires a network connection to protect the passenger during travel.</p>
   </div>
+
+  <h3>4.6 Failure modes and graceful degradation</h3>
+  <p>The current design is optimised for the happy path. Real-world Indian rail travel involves frequent edge cases that must be handled gracefully:</p>
+
+  <table>
+    <thead>
+      <tr><th>Scenario</th><th>Detection method</th><th>Graceful degradation</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tdb">Train cancelled</td>
+        <td>NTES API status check; IRCTC cancellation SMS/email</td>
+        <td>Yatra Card shows "Cancelled" badge; all alarms disabled; refund status link displayed</td>
+      </tr>
+      <tr>
+        <td class="tdb">Waitlisted ticket (WL → RAC → CNF)</td>
+        <td>Periodic PNR status polling via NTES API</td>
+        <td>Yatra Card shows live WL position with trend indicator (moving up / stuck); visual confirmation when status changes to RAC or CNF; "Not confirmed" warning badge until chart preparation</td>
+      </tr>
+      <tr>
+        <td class="tdb">Platform change at station</td>
+        <td>NTES platform assignment API (where available)</td>
+        <td>Push notification with updated platform number; Yatra Card updated in real time; fallback: "Platform not yet assigned" with manual check link</td>
+      </tr>
+      <tr>
+        <td class="tdb">GPS hardware failure mid-journey</td>
+        <td>No GPS fix received for 3 consecutive polling cycles</td>
+        <td>Fall back to last-known-speed dead reckoning; show "GPS signal lost" indicator on map; continue alarm logic using estimated position; re-acquire GPS automatically when signal returns</td>
+      </tr>
+      <tr>
+        <td class="tdb">Multiple journeys on same day</td>
+        <td>Multiple Yatra Cards with overlapping or sequential dates</td>
+        <td>Journey timeline view showing all legs; automatic transition from completed journey to next leg; independent alarm and tracking for each segment</td>
+      </tr>
+      <tr>
+        <td class="tdb">Chart not yet prepared</td>
+        <td>PNR status API returns "Chart Not Prepared"</td>
+        <td>Yatra Card shows "Chart pending" badge; coach/berth fields show "Will update after chart preparation"; automatic refresh when chart is published (typically 4 hours before departure)</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- 05 ARCHITECTURE -->
@@ -528,6 +704,65 @@ d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) �
   </ul>
 </section>
 
+<!-- 07.5 DEVICE & LOCALE MATRIX -->
+<section id="device-locale">
+  <h2>07.5 · Device and locale matrix</h2>
+  <div class="sh">Accessibility, localisation, and low-end device support</div>
+
+  <h3>Minimum device specification</h3>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Android</th><th>iOS</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">OS version</td><td>Android 8.0 (API 26)+</td><td>iOS 15+</td></tr>
+      <tr><td class="tdb">RAM</td><td>2 GB minimum</td><td>2 GB minimum</td></tr>
+      <tr><td class="tdb">Free storage</td><td>150 MB (app + one route corridor)</td><td>150 MB</td></tr>
+      <tr><td class="tdb">GPS hardware</td><td>Required</td><td>Required</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Storage budget</h3>
+  <p>A significant portion of Indian rail travellers use sub-$100 Android phones with 2–3 GB RAM and limited storage. The offline asset budget is strictly managed:</p>
+  <table>
+    <thead>
+      <tr><th>Asset</th><th>Size target</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">App binary</td><td>&lt; 25 MB</td><td>Excluding offline assets</td></tr>
+      <tr><td class="tdb">Track shapefiles (full India)</td><td>&lt; 40 MB</td><td>Compressed; spatial index built on first launch</td></tr>
+      <tr><td class="tdb">Offline map tiles (single route corridor)</td><td>&lt; 30 MB</td><td>Downloaded per-journey; auto-cleaned after arrival</td></tr>
+      <tr><td class="tdb">Station database</td><td>&lt; 5 MB</td><td>All 7,000+ stations with coordinates</td></tr>
+      <tr><td class="tdb">SQLite journey data</td><td>&lt; 10 MB per journey</td><td>Breadcrumbs, Yatra Card, sync queue</td></tr>
+    </tbody>
+  </table>
+  <p>Total on-device footprint target: <strong>under 110 MB</strong> for a single active journey. Old journey data and map tiles are auto-purged 7 days after arrival.</p>
+
+  <h3>Language support roadmap</h3>
+  <p>India has 22 scheduled languages. Sahayatri launches in English and Hindi, with a phased expansion aligned to the top rail-using states:</p>
+  <table>
+    <thead>
+      <tr><th>Phase</th><th>Languages</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">Launch</td><td>English, Hindi</td><td>Covers ~60% of Indian rail passengers</td></tr>
+      <tr><td class="tdb">Phase 2</td><td>Tamil, Telugu, Bengali</td><td>Southern and Eastern Railway zones — highest long-distance traffic</td></tr>
+      <tr><td class="tdb">Phase 3</td><td>Marathi, Gujarati, Kannada</td><td>Western and South Western Railway zones</td></tr>
+      <tr><td class="tdb">Phase 4</td><td>Malayalam, Odia, Punjabi, Assamese</td><td>Remaining high-traffic corridors</td></tr>
+    </tbody>
+  </table>
+  <p>All Hindi feature names (Nikalne ka waqt, Utarne ki alarm, Vishram Mode) are transliterated into each supported language's script.</p>
+
+  <h3>Accessibility</h3>
+  <ul class="fl">
+    <li><strong>Screen reader support:</strong> All UI elements carry semantic labels; Yatra Card is fully navigable via TalkBack (Android) and VoiceOver (iOS)</li>
+    <li><strong>High-contrast mode:</strong> Respects system accessibility settings; critical alarm screens use maximum contrast ratios</li>
+    <li><strong>Large text support:</strong> All text scales with system font size preferences up to 200%</li>
+    <li><strong>Haptic feedback:</strong> Utarne ki alarm triggers strong haptic vibration pattern in addition to audio — critical for hearing-impaired travellers</li>
+    <li><strong>Colour-blind safe:</strong> Delay status uses shape + text in addition to colour (e.g., triangle icon for delayed, not just red/green)</li>
+  </ul>
+</section>
+
 <!-- 08 ROADMAP -->
 <section id="roadmap">
   <h2>08 · Phased roadmap</h2>
@@ -567,9 +802,150 @@ d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) �
   </table>
 </section>
 
-<!-- 09 PHILOSOPHY -->
+<!-- 08.5 SUCCESS METRICS -->
+<section id="kpis">
+  <h2>08.5 · Success metrics</h2>
+  <div class="sh">How we measure whether Sahayatri is working</div>
+
+  <p>Each phase has a defined north-star metric that determines whether the feature is performing as designed:</p>
+  <table>
+    <thead>
+      <tr><th>Phase</th><th>North star metric</th><th>Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tdb">Phase 1 — Yatra Khoj</td>
+        <td>% of bookings auto-detected vs. manual entry</td>
+        <td>&gt; 80% auto-detection rate for users who grant email/SMS access</td>
+      </tr>
+      <tr>
+        <td class="tdb">Phase 2 — Samay Suchna</td>
+        <td>Alarm accuracy: % of "Nikalne ka waqt" alerts within 5 min of optimal departure time</td>
+        <td>&gt; 90% within ±5 min window</td>
+      </tr>
+      <tr>
+        <td class="tdb">Phase 3 — Safar Rakshak</td>
+        <td>Alarm reliability: % of Utarne ki alarm fires within 1 km of user's configured threshold</td>
+        <td>&gt; 95% accuracy</td>
+      </tr>
+      <tr>
+        <td class="tdb">Phase 4 — Rail Darshan</td>
+        <td>Map accuracy: % of snapped positions within 50 m of actual track centreline</td>
+        <td>&gt; 98% of GPS fixes snap correctly</td>
+      </tr>
+      <tr>
+        <td class="tdb">Phase 5 — Multi-modal</td>
+        <td>Cross-mode adoption: % of users who track a non-rail journey within 30 days of first rail journey</td>
+        <td>&gt; 15% cross-mode usage</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Operational health metrics</h3>
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Target</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">Install-to-first-journey conversion</td><td>&gt; 40% within 7 days</td></tr>
+      <tr><td class="tdb">Permission grant rate (Location)</td><td>&gt; 90%</td></tr>
+      <tr><td class="tdb">Permission grant rate (Email OAuth)</td><td>&gt; 60%</td></tr>
+      <tr><td class="tdb">Permission grant rate (SMS — Android)</td><td>&gt; 35%</td></tr>
+      <tr><td class="tdb">Battery drain during overnight journey (8 hrs)</td><td>&lt; 8% total battery consumption</td></tr>
+      <tr><td class="tdb">Alarm false-positive rate (fires when not needed)</td><td>&lt; 2%</td></tr>
+      <tr><td class="tdb">Alarm false-negative rate (fails to fire)</td><td>0% — zero tolerance</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 09 NOTIFICATION DESIGN SYSTEM -->
+<section id="notifications">
+  <h2>09 · Notification design system</h2>
+  <div class="sh">Priority hierarchy, channels, and platform-specific behaviour</div>
+
+  <p>Sahayatri generates multiple notification types across the journey lifecycle. Without a clear priority hierarchy, notifications become noise — violating the core design philosophy. Every notification is classified into one of four priority tiers:</p>
+
+  <table>
+    <thead>
+      <tr><th>Priority</th><th>Type</th><th>Behaviour</th><th>Vishram Mode</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="pbadge" style="background:#E24B4A20;color:#A32D2D">P0 · Critical</span></td>
+        <td class="tdb">Utarne ki alarm</td>
+        <td>Full-screen alarm with sound, vibration, and haptic. Overrides silent mode and DND.</td>
+        <td>FIRES — the only notification that breaks Vishram</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge" style="background:#BA751720;color:#854F0B">P1 · High</span></td>
+        <td class="tdb">Nikalne ka waqt, Train cancelled</td>
+        <td>Heads-up notification with sound. Persistent until dismissed.</td>
+        <td>Suppressed</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge" style="background:#1D9E7520;color:#085041">P2 · Medium</span></td>
+        <td class="tdb">Delay escalation, Platform change, Chart prepared</td>
+        <td>Standard notification. Grouped if multiple arrive within 5 minutes.</td>
+        <td>Suppressed</td>
+      </tr>
+      <tr>
+        <td><span class="pbadge" style="background:#EEEDFE;color:#534AB7">P3 · Low</span></td>
+        <td class="tdb">Journey summary, Co-passenger info, Status sync</td>
+        <td>Silent notification. Badge only, no sound or vibration.</td>
+        <td>Suppressed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Android notification channels</h3>
+  <p>Android 8+ requires notification channels. Sahayatri registers four channels matching the priority tiers, allowing users to independently mute delay nudges while keeping the arrival alarm at full volume:</p>
+  <ul class="fl">
+    <li><strong>sahayatri_critical</strong> — Utarne ki alarm only. Importance: MAX. Cannot be silenced by user (enforced by Android system for alarm-category notifications)</li>
+    <li><strong>sahayatri_high</strong> — Departure alerts, cancellations. Importance: HIGH</li>
+    <li><strong>sahayatri_medium</strong> — Delay updates, platform changes. Importance: DEFAULT</li>
+    <li><strong>sahayatri_low</strong> — Informational. Importance: LOW</li>
+  </ul>
+
+  <h3>iOS Critical Alert entitlement</h3>
+  <p>Standard iOS notifications can be silenced by Focus modes and DND — which passengers typically enable while sleeping. The Utarne ki alarm <strong>must</strong> bypass these. Sahayatri applies for Apple's Critical Alert entitlement (requires justification to Apple review team). This allows the alarm to play sound at system volume even when the device is in DND or Silent mode. The entitlement is used exclusively for the P0 Utarne ki alarm — never for any other notification.</p>
+</section>
+
+<!-- 10 SECURITY & OAUTH -->
+<section id="security">
+  <h2>10 · Security and OAuth token management</h2>
+  <div class="sh">Protecting user credentials and journey data</div>
+
+  <h3>OAuth token storage</h3>
+  <ul class="fl">
+    <li><strong>Android:</strong> OAuth refresh tokens stored in Android Keystore (hardware-backed where available). Never in SharedPreferences or plain SQLite</li>
+    <li><strong>iOS:</strong> OAuth refresh tokens stored in iOS Keychain with <code>kSecAttrAccessibleAfterFirstUnlock</code> protection class</li>
+    <li><strong>Scope:</strong> Gmail API requests use <code>gmail.readonly</code> scope only. Outlook uses <code>Mail.Read</code>. No write or send permissions are ever requested</li>
+  </ul>
+
+  <h3>Token lifecycle</h3>
+  <table>
+    <thead>
+      <tr><th>Event</th><th>Behaviour</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="tdb">App launch</td><td>Token health check — verify refresh token is valid; if expired, prompt re-authentication</td></tr>
+      <tr><td class="tdb">Token revoked by user (via Google/Microsoft account settings)</td><td>Graceful fallback to manual PNR entry; "Email sync paused" badge on home screen; no crash or error state</td></tr>
+      <tr><td class="tdb">Token rotation</td><td>Refresh tokens are rotated on every use (where supported by the OAuth provider); old tokens are immediately invalidated</td></tr>
+      <tr><td class="tdb">App uninstall</td><td>Keystore/Keychain entries are automatically purged by the OS</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Data at rest</h3>
+  <ul class="fl">
+    <li>SQLite database encrypted with SQLCipher (AES-256) on both platforms</li>
+    <li>GPS breadcrumb data is stored locally and synced to server only in aggregate batches — never streamed</li>
+    <li>Shareable live view links use time-limited tokens (expire 1 hour after arrival) and contain no personally identifiable information</li>
+  </ul>
+</section>
+
+<!-- 11 PHILOSOPHY -->
 <section id="philosophy">
-  <h2>09 · Design philosophy</h2>
+  <h2>11 · Design philosophy</h2>
   <div class="sh">What Sahayatri feels like to use</div>
   <p>The Indian train journey is a deeply human experience. People share berths, eat together, talk to strangers, watch the landscape pass in the dark. Sahayatri is designed to disappear into the background of that experience — not demand attention, not bombard with notifications, not turn the journey into a data dashboard.</p>
   <p>It speaks when spoken to. It alarms when necessary. When the train is on time and the passenger is asleep, it does nothing at all — except watch.</p>
@@ -579,7 +955,7 @@ d = 2r · arcsin( √( sin²((φ₂ − φ₁) / 2) + cos(φ₁) · cos(φ₂) �
   <p>The name is not a feature name or a marketing term. It is a commitment. Sahayatri is your fellow traveller, and a fellow traveller does not let you miss your station.</p>
   <hr>
   <div class="footer">
-    Sahayatri · सहयात्री · Complete Product Design v1.0<br>
+    Sahayatri · सहयात्री · Complete Product Design v2.0<br>
     Aapka saathi, har safar mein · Your companion, every journey
   </div>
 </section>
