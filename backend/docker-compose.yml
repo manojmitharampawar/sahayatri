@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sahayatri
+      POSTGRES_PASSWORD: sahayatri
+      POSTGRES_DB: sahayatri
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sahayatri"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  sahayatri-backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SAHAYATRI_SERVER_PORT: "8080"
+      SAHAYATRI_DB_HOST: postgres
+      SAHAYATRI_DB_PORT: "5432"
+      SAHAYATRI_DB_USER: sahayatri
+      SAHAYATRI_DB_PASSWORD: sahayatri
+      SAHAYATRI_DB_NAME: sahayatri
+      SAHAYATRI_DB_SSL_MODE: disable
+      SAHAYATRI_REDIS_ADDR: redis:6379
+      SAHAYATRI_JWT_SECRET: change-me-in-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
