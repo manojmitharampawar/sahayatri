@@ -32,7 +32,7 @@ func (s *FamilyStore) GetGroup(ctx context.Context, id int64) (*models.FamilyGro
 }
 
 func (s *FamilyStore) ListGroupsByUser(ctx context.Context, userID int64) ([]models.FamilyGroup, error) {
-	query := `SELECT fg.id, fg.name, fg.owner_id, fg.created_at
+	query := `SELECT DISTINCT fg.id, fg.name, fg.owner_id, fg.created_at
 		FROM family_groups fg
 		LEFT JOIN family_members fm ON fg.id = fm.group_id
 		WHERE fg.owner_id = $1 OR fm.user_id = $1

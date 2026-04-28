@@ -43,8 +43,8 @@ func (h *Hub) Unregister(yatraID int64, client *Client) {
 
 // Broadcast sends a message to all clients in a given yatra room.
 func (h *Hub) Broadcast(yatraID int64, message []byte) {
-	h.mu.RLock()
-	defer h.mu.RUnlock()
+	h.mu.Lock()
+	defer h.mu.Unlock()
 
 	clients, ok := h.rooms[yatraID]
 	if !ok {
@@ -55,8 +55,15 @@ func (h *Hub) Broadcast(yatraID int64, message []byte) {
 		select {
 		case client.Send <- message:
 		default:
-			close(client.Send)
 			delete(clients, client)
+			go func(ch chan []byte) {
+				defer func() { recover() }()
+				close(ch)
+			}(client.Send)
 		}
+	}
+
+	if len(clients) == 0 {
+		delete(h.rooms, yatraID)
 	}
 }
